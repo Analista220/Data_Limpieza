@@ -1,0 +1,1893 @@
+{
+  "ARARY": {
+    "fecha": [
+      "FECHA_DOCUI"
+    ],
+    "vendedor": [
+      "Desc. C.O."
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "Desc. item"
+    ],
+    "Valor Total": [
+      "Suma de Valor subtotal local"
+    ],
+    "cantidad": [
+      "Suma de Cajas"
+    ],
+    "cliente": [
+      "DESCRIPCION CLIENTE"
+    ],
+    "nit": [
+      ""
+    ],
+    "rellenar_vendedor": true
+  },
+  "Todo Aseo": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "Asesor Act"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "PRODUCTOS"
+    ],
+    "Valor Total": [
+      "ValorTotal"
+    ],
+    "cantidad": [
+      "Cajas"
+    ],
+    "cliente": [
+      "CLIENTE"
+    ],
+    "nit": [
+      "Nit CL"
+    ]
+  },
+  "El 27": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "Nombre producto"
+    ],
+    "Valor Total": [
+      "Subtotal"
+    ],
+    "cantidad": [
+      "Cantidad vendida"
+    ],
+    "cliente": [
+      "Cliente"
+    ],
+    "nit": [
+      "Identificación"
+    ]
+  },
+  "Ovante": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "Valor total"
+    ],
+    "cantidad": [
+      "Cantidad caja"
+    ],
+    "cliente": [
+      "Nombre cliente"
+    ],
+    "nit": [
+      "Nit"
+    ]
+  },
+  "La Proveedora": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [
+      "VendedorNit"
+    ],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "Total"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Ncomercial"
+    ],
+    "nit": [
+      "Nit"
+    ]
+  },
+  "Arias": {
+    "fecha": [
+      "Fecha movto."
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [
+      "Vendedor"
+    ],
+    "referencia": [
+      "Desc. Item"
+    ],
+    "Valor Total": [
+      "Valor subtotal local"
+    ],
+    "cantidad": [
+      "Cantidad inv."
+    ],
+    "cliente": [
+      ""
+    ],
+    "nit": [
+      ""
+    ]
+  },
+  "Edexa": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [
+      "Vendedor"
+    ],
+    "referencia": [
+      "Desc. item"
+    ],
+    "Valor Total": [
+      "Valor subtotal local"
+    ],
+    "cantidad": [
+      "Cantidad emp."
+    ],
+    "cliente": [
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Cliente factura"
+    ]
+  },
+  "JMUB": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "ASESOR"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "DESCRIPCION REFEREN."
+    ],
+    "Valor Total": [
+      "PRECIO TOTAL"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "DESCRIPCION CLIENTE"
+    ],
+    "nit": [
+      "CLIENTE DOCTO"
+    ]
+  },
+  "Teckno": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "Valor total"
+    ],
+    "cantidad": [
+      "cantidad  Und"
+    ],
+    "cliente": [
+      "Nombre cliente"
+    ],
+    "nit": [
+      "Nit"
+    ]
+  },
+  "Brako": {
+    "fecha": [
+      "FECHA_FACTURA"
+    ],
+    "vendedor": [
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "NOMBRE PRODUCTO"
+    ],
+    "Valor Total": [
+      "VALOR TOTAL"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "NOMBRE CLIENTE"
+    ],
+    "nit": [
+      "COD CLIENTE (NIT)"
+    ]
+  },
+  "Brillo": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "Vendedor Nombre"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "Nombre Concepto"
+    ],
+    "Valor Total": [
+      "Suma de Vr. Base"
+    ],
+    "cantidad": [
+      "Suma de Cantidad"
+    ],
+    "cliente": [
+      "Beneficiario Identidad"
+    ],
+    "nit": [
+      "Beneficiario Nombre"
+    ]
+  },
+  "Distritodo": {
+    "fecha": [
+      "FECHA DOCUM"
+    ],
+    "vendedor": [
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "CEDULAVENDEDOR"
+    ],
+    "referencia": [
+      "NOMBRE PRODUCTO"
+    ],
+    "Valor Total": [
+      "BRUTO"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "NOMBRE CLIENTE"
+    ],
+    "nit": [
+      "COD CLIENTE"
+    ]
+  },
+  "FC": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "Codigo Sku"
+    ],
+    "Valor Total": [
+      "Valor total"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Nombre cliente"
+    ],
+    "nit": [
+      "Nit"
+    ]
+  },
+  "Fonina": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "NombreVendedor"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "NombreArticulo"
+    ],
+    "Valor Total": [
+      "Venta_Total"
+    ],
+    "cantidad": [
+      "Cant_Total"
+    ],
+    "cliente": [
+      "NombreCliente"
+    ],
+    "nit": [
+      "Cliente"
+    ]
+  },
+  "JMUC": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "VENDEDOR TRAN."
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "DESCRIPCION REFEREN."
+    ],
+    "Valor Total": [
+      "PRECIO TOTAL"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "DESCRIPCION CLIENTE"
+    ],
+    "nit": [
+      ""
+    ]
+  },
+  "Sumiclean": {
+    "fecha": [
+      "Fecha elaboración"
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "VALOR TOTAL"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Nombre tercero"
+    ],
+    "nit": [
+      "Identificación"
+    ]
+  },
+  "El Surtido": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [
+      "Identificación"
+    ],
+    "referencia": [
+      "Nombre"
+    ],
+    "Valor Total": [
+      "Subtotal"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Nombre Comercial"
+    ],
+    "nit": [
+      ""
+    ]
+  },
+  "JMUM": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      ""
+    ],
+    "referencia": [
+      "PRODUCTO"
+    ],
+    "Valor Total": [
+      "P/V TOTAL"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "RAZON SOCIAL"
+    ],
+    "nit": [
+      "NIT"
+    ]
+  },
+  "GENERAL": {
+    "fecha": [
+      ""
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL17": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL18": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL19": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL20": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL21": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL22": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL23": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL24": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL25": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL26": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL27": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL28": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL29": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL30": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL31": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "GENERAL32": {
+    "fecha": [
+      "fecha",
+      "FECHA",
+      "FECHA DOCUMENTO"
+    ],
+    "vendedor": [
+      "Vendedor",
+      "NOMBRE ASESOR",
+      "NombreVendedor",
+      "VENDEDOR",
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [
+      "cc",
+      "CC",
+      "CEDULA",
+      "Identificación"
+    ],
+    "referencia": [
+      "referencia",
+      "REFERENCIA",
+      "NOMBRE PRODUCTO",
+      "Descripción",
+      "Item"
+    ],
+    "Valor Total": [
+      "Valor Total",
+      "PRECIO TOTAL",
+      "Valor total",
+      "VALOR TOTAL",
+      "Total"
+    ],
+    "cantidad": [
+      "cantidad",
+      "CANTIDAD",
+      "Cantidad",
+      "Unidades"
+    ],
+    "cliente": [
+      "cliente",
+      "CLIENTE",
+      "NOMBRE CLIENTE",
+      "Razón social cliente factura"
+    ],
+    "nit": [
+      "Nit",
+      "NIT",
+      "COD CLIENTE",
+      "Identificación",
+      "Cliente"
+    ]
+  },
+  "agaval Ventas_Mabe_2026-abril": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "VENTA"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE DE VENTAS CANAL TRADICIONAL ANTIOQUIA  ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [],
+    "referencia": [
+      "REF ARTICULO"
+    ],
+    "Valor Total": [
+      "Vr. PRODUCTO"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "NOMBRE CLIENTE"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "GMJ CORREGIDO Formato Planilla de ventas 2026 MABE abril2026": {
+    "fecha": [],
+    "vendedor": [],
+    "cc": [],
+    "referencia": [],
+    "Valor Total": [],
+    "cantidad": [],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "VENTA MULTIELECTO ABRIL 2026 (005)": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE VENDEDOR"
+    ],
+    "cc": [],
+    "referencia": [
+      "REF ARTICULO"
+    ],
+    "Valor Total": [
+      "Vr. PRODUCTO"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "NOMBRE CLIENTE"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "VENTAS GMJ ABRIL": {
+    "fecha": [
+      "FDI_FECHAOPERACION"
+    ],
+    "vendedor": [
+      "NOMBRE_VENDEDOR"
+    ],
+    "cc": [],
+    "referencia": [
+      "FI_MARCA"
+    ],
+    "Valor Total": [
+      "FDI_PRECIODEVENTA"
+    ],
+    "cantidad": [
+      "FDI_CANTIDAD"
+    ],
+    "cliente": [
+      "FDI_CLIENTEPROVEEDOR"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "VENTAS SABANA TITANES  MABE ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "SUCURSAL"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "LIQUIDACION TITANES MABE CIERRE ABRIL 2026-KIRAMAR": {
+    "fecha": [
+      "Fecha de contabilización"
+    ],
+    "vendedor": [
+      "NomVendedorCliente"
+    ],
+    "cc": [],
+    "referencia": [
+      "Ref producto"
+    ],
+    "Valor Total": [
+      "Total"
+    ],
+    "cantidad": [
+      "Quantity"
+    ],
+    "cliente": [
+      "Nombre de cliente/proveedor"
+    ],
+    "nit": [
+      "Código de cliente/proveedor"
+    ],
+    "rellenar_vendedor": true
+  },
+  "CIERRE BC abril 2026": {
+    "fecha": [
+      "fecha"
+    ],
+    "vendedor": [
+      "vendedor"
+    ],
+    "cc": [],
+    "referencia": [
+      "referencia"
+    ],
+    "Valor Total": [
+      "valorconiva"
+    ],
+    "cantidad": [
+      "cantidad"
+    ],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE COMPULAGO ABRL 2026": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [],
+    "referencia": [
+      "Insumo"
+    ],
+    "Valor Total": [],
+    "cantidad": [],
+    "cliente": [
+      "Cliente"
+    ],
+    "nit": [
+      "Identificacion"
+    ],
+    "rellenar_vendedor": true
+  },
+  "CIERRE DELCO JR  ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE LUIS XV  ABRIL 2026 n": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE LUIS XV ABRIL 2026": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Ejecutivo"
+    ],
+    "cc": [],
+    "referencia": [
+      "Recursos"
+    ],
+    "Valor Total": [
+      "Valor Total"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Cliente"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE PUNTO CENTER ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "ALMACEN"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "CIERRE PUNTO CENTER VALLEABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "SUCURSAL"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "COLVENTAS SANTA MARTA ABRIL 2026": {
+    "fecha": [],
+    "vendedor": [],
+    "cc": [],
+    "referencia": [],
+    "Valor Total": [],
+    "cantidad": [],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "COLVENTASS CARTAGENA ABRIL 2026": {
+    "fecha": [
+      "Unnamed: 1"
+    ],
+    "vendedor": [
+      "Unnamed: 2"
+    ],
+    "cc": [],
+    "referencia": [
+      "Unnamed: 4"
+    ],
+    "Valor Total": [
+      "Unnamed: 7"
+    ],
+    "cantidad": [
+      "Unnamed: 3"
+    ],
+    "cliente": [
+      "Unnamed: 5"
+    ],
+    "nit": [
+      "Unnamed: 6"
+    ],
+    "rellenar_vendedor": false
+  },
+  "DELCO SANTA MARTA ABRIL 2026": {
+    "fecha": [],
+    "vendedor": [],
+    "cc": [],
+    "referencia": [],
+    "Valor Total": [],
+    "cantidad": [],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "DTPH ABRIL 2026": {
+    "fecha": [
+      "Fecha"
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [],
+    "referencia": [
+      "Referencia"
+    ],
+    "Valor Total": [
+      "Valor subtotal local"
+    ],
+    "cantidad": [
+      "Cantidad inv."
+    ],
+    "cliente": [
+      "Razon social cliente factura"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "ELECTROREYES ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "ALMACEN"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "MEICO ABRIL 2026": {
+    "fecha": [
+      "FECHA"
+    ],
+    "vendedor": [
+      "NOMBRE"
+    ],
+    "cc": [
+      "CEDULA"
+    ],
+    "referencia": [
+      "REFERENCIA"
+    ],
+    "Valor Total": [
+      "VALOR"
+    ],
+    "cantidad": [
+      "CANTIDAD"
+    ],
+    "cliente": [
+      "SUCURSAL"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "SOCOL CIENAGA ABRIL 2026": {
+    "fecha": [
+      "Unnamed: 1"
+    ],
+    "vendedor": [
+      "Unnamed: 2"
+    ],
+    "cc": [],
+    "referencia": [
+      "Unnamed: 4"
+    ],
+    "Valor Total": [
+      "Unnamed: 8"
+    ],
+    "cantidad": [
+      "Unnamed: 7"
+    ],
+    "cliente": [
+      "Unnamed: 3"
+    ],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "SOCOL SM ABRIL 2026": {
+    "fecha": [
+      "Fecha creación"
+    ],
+    "vendedor": [
+      "Nombre vendedor"
+    ],
+    "cc": [
+      "Identificación Vendedor"
+    ],
+    "referencia": [
+      "Nombre"
+    ],
+    "Valor Total": [
+      "Total"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [
+      "Nombre tercero"
+    ],
+    "nit": [
+      "Identificación"
+    ],
+    "rellenar_vendedor": false
+  },
+  "CIERRE AO ABRIL 2026": {
+    "fecha": [],
+    "vendedor": [],
+    "cc": [],
+    "referencia": [],
+    "Valor Total": [],
+    "cantidad": [],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  },
+  "sell out Mayo 2026": {
+    "fecha": [],
+    "vendedor": [
+      "Vendedor"
+    ],
+    "cc": [],
+    "referencia": [
+      "Descripción"
+    ],
+    "Valor Total": [
+      "Base"
+    ],
+    "cantidad": [
+      "Cantidad"
+    ],
+    "cliente": [],
+    "nit": [],
+    "rellenar_vendedor": false
+  }
+}
