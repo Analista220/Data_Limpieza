@@ -492,3 +492,23 @@ if st.button("🚀 Iniciar Procesamiento", disabled=not listo, use_container_wid
                 mime="application/zip",
                 use_container_width=True
             )
+
+    # ── DESCARGA DEL JSON ACTUALIZADO ────────────────────────────
+    # Si la IA generó mapeos nuevos durante esta sesión, el config
+    # en memoria quedó actualizado. Ofrecemos descargarlo para que
+    # el usuario lo reemplace en su VS Code y lo vuelva a subir.
+    config_actualizado = cargar_json()
+    if config_actualizado:
+        st.markdown("---")
+        st.markdown("### 🗂️ Configuración de distribuidores")
+        st.caption(
+            "Si la IA aprendió distribuidores nuevos en esta sesión, descarga el JSON "
+            "actualizado, reemplázalo en tu proyecto y vuelve a hacer deploy."
+        )
+        st.download_button(
+            label="⬇️ Descargar config_distribuidores.json actualizado",
+            data=json.dumps(config_actualizado, ensure_ascii=False, indent=2).encode("utf-8"),
+            file_name="config_distribuidores.json",
+            mime="application/json",
+            use_container_width=True
+        )
