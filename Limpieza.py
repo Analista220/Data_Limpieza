@@ -1,103 +1,72 @@
 import os
 import json
 import pandas as pd
+import tkinter as tk
+from tkinter import filedialog, simpledialog
 import openpyxl
 from openpyxl.utils.dataframe import dataframe_to_rows
 from copy import copy
 import urllib.request
 import urllib.error
 import time
-import streamlit as st
 import io
-import zipfile
 
 # ─────────────────────────────────────────────────────────────────
 #   CONFIGURACIÓN
 # ─────────────────────────────────────────────────────────────────
 
 CAMPOS_PLANTILLA = ["fecha", "vendedor", "cc", "referencia", "Valor Total", "cantidad", "cliente", "nit"]
-RUTA_JSON = "config_distribuidores.json"
-
-st.set_page_config(page_title="Liquidador de Distribuidores", page_icon="🐐", layout="centered")
-
-st.title("Sistema de Liquidación de Distribuidores")
-st.caption("Creado por 🐐 Nicolas Tovar y 🐐 Cristian Morales")
-st.markdown("---")
+RUTA_JSON = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config_distribuidores.json")
+NULOS = ['nan', 'NAN', 'None', 'none', 'NONE', 'NaT', '']
 
 # ─────────────────────────────────────────────────────────────────
-#   SIDEBAR: API KEY
+#   API KEY
 # ─────────────────────────────────────────────────────────────────
 
-st.sidebar.header("🔑 Configuración de Acceso")
-api_key_input = st.sidebar.text_input(
-    "Anthropic API Key", type="password",
-    help="Ingresa tu API Key para habilitar el mapeo automático con IA."
-)
-api_key = api_key_input.strip() if api_key_input else os.environ.get("ANTHROPIC_API_KEY", "")
-
-if not api_key:
-    st.sidebar.warning("⚠️ Sin API key. Solo se usarán mapeos del JSON existente.")
-else:
-    st.sidebar.success("✅ API Key cargada.")
+def pedir_api_key():
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key:
+        root = tk.Tk()
+        root.withdraw()
+        mensaje = (
+            "Creado por 🐐 Nicolas Tovar y 🐐 Cristian Morales\n\n"
+            "Ingresa tu Anthropic API Key:\n"
+            "(Solo se pide una vez por sesión)"
+        )
+        api_key = simpledialog.askstring("API Key requerida", mensaje, show="*")
+    return api_key.strip() if api_key else None
 
 # ─────────────────────────────────────────────────────────────────
 #   DETECCIÓN DE FILA DE ENCABEZADOS (FILAS 1, 2 O 3)
 # ─────────────────────────────────────────────────────────────────
 
-def detectar_fila_encabezados(file_bytes: bytes, max_filas: int = 3) -> tuple[pd.DataFrame, int]:
+def detectar_fila_encabezados(path: str) -> tuple[pd.DataFrame, int]:
     """
-    Intenta leer el Excel probando la fila de encabezados en las posiciones
-    0, 1 y 2 (equivalentes a filas 1, 2 y 3 en Excel).
-
-    Una fila es válida como encabezado si:
-      - Tiene al menos 3 columnas con texto (no nulas, no numéricas puras)
-      - Al menos el 50% de sus valores son strings no vacíos
-
-    Retorna (DataFrame con encabezados correctos, número de fila 1-based encontrada).
-    Si no encuentra nada válido, retorna la lectura con header=0 como fallback.
+    Prueba las primeras 3 filas como posible encabezado.
+    Una fila es válida si tiene al menos 3 columnas con nombre real (no Unnamed).
+    Retorna (DataFrame completo con encabezados correctos, número de fila 1-based).
     """
-    for fila_idx in range(max_filas):
+    for fila_idx in range(3):
         try:
-            df = pd.read_excel(
-                io.BytesIO(file_bytes),
-                header=fila_idx,
-                dtype=str,
-                nrows=5  # solo leemos unas pocas filas para validar rápido
-            )
+            df = pd.read_excel(path, header=fila_idx, dtype=str, nrows=5)
             df.columns = df.columns.astype(str).str.strip()
-
-            # Filtrar columnas "Unnamed: X" que genera pandas cuando la celda está vacía
             cols_validas = [
                 c for c in df.columns
                 if c and not c.startswith("Unnamed:") and c.lower() != "nan"
             ]
-
-            # Criterio: al menos 3 columnas con nombre real
             if len(cols_validas) >= 3:
-                # Releer completo con la fila correcta
-                df_completo = pd.read_excel(
-                    io.BytesIO(file_bytes),
-                    header=fila_idx,
-                    dtype=str
-                )
+                df_completo = pd.read_excel(path, header=fila_idx, dtype=str)
                 df_completo.columns = df_completo.columns.astype(str).str.strip()
-                # Eliminar columnas sin nombre
-                df_completo = df_completo.loc[
-                    :, ~df_completo.columns.str.startswith("Unnamed:")
-                ]
-                df_completo = df_completo.loc[
-                    :, df_completo.columns.str.lower() != "nan"
-                ]
-                return df_completo, fila_idx + 1  # fila 1-based
-
+                df_completo = df_completo.loc[:, ~df_completo.columns.str.startswith("Unnamed:")]
+                df_completo = df_completo.loc[:, df_completo.columns.str.lower() != "nan"]
+                return df_completo, fila_idx + 1
         except Exception:
             continue
 
-    # Fallback: leer con header=0
-    df_fallback = pd.read_excel(io.BytesIO(file_bytes), header=0, dtype=str)
+    # Fallback
+    df_fallback = pd.read_excel(path, header=0, dtype=str)
     df_fallback.columns = df_fallback.columns.astype(str).str.strip()
     return df_fallback, 1
-
 
 # ─────────────────────────────────────────────────────────────────
 #   MAPEO CON IA
@@ -127,6 +96,8 @@ Ejemplos de nombre corto:
 - "Ventas GMJ abril 2026" → "GMJ"
 - "LIQUIDACION TITANES MABE CIERRE ABRIL 2026-KIRAMAR" → "KIRAMAR"
 - "VENTA MULTIELECTO ABRIL 2026" → "MULTIELECTO"
+- "GMJ CORREGIDO Formato Planilla de ventas 2026 MABE abril2026" → "GMJ"
+- "agaval Ventas_Mabe_2026-abril" → "agaval"
 
 Reglas del mapeo:
 1. Cada valor del mapeo debe ser UNA LISTA con el encabezado exacto del Excel.
@@ -170,23 +141,28 @@ Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta, sin 
                     clave_corta = "_".join(nombre_archivo.split()[:2])
                 clave_corta = clave_corta.strip().upper()
 
+                print(f"   🤖 IA generó mapeo | Clave del distribuidor: '{clave_corta}'")
                 return mapeo, clave_corta
 
         except urllib.error.HTTPError as e:
+            cuerpo = e.read().decode("utf-8")
             if e.code == 429:
                 espera = 20 * (intento + 1)
+                print(f"   ⏳ Límite de velocidad. Esperando {espera}s...")
                 time.sleep(espera)
                 req = construir_req()
                 continue
+            print(f"   ❌ Error HTTP {e.code}: {cuerpo}")
             return None, None
-        except Exception:
+        except Exception as e:
+            print(f"   ❌ Error al llamar a la IA: {e}")
             return None, None
 
+    print("   ❌ Se agotaron los 3 reintentos.")
     return None, None
 
-
 # ─────────────────────────────────────────────────────────────────
-#   JSON DE CONFIGURACIÓN
+#   JSON
 # ─────────────────────────────────────────────────────────────────
 
 def cargar_json() -> dict:
@@ -198,21 +174,21 @@ def cargar_json() -> dict:
 def guardar_json(config: dict):
     with open(RUTA_JSON, "w", encoding="utf-8") as f:
         json.dump(config, f, ensure_ascii=False, indent=2)
-
+    print(f"   💾 Mapeo guardado en config_distribuidores.json")
 
 # ─────────────────────────────────────────────────────────────────
 #   RESOLUCIÓN DE MAPEO
 # ─────────────────────────────────────────────────────────────────
 
-def resolver_mapeo(nombre_archivo: str, encabezados: list, config: dict, api_key: str, log):
-    texto_busqueda = nombre_archivo.upper()
+def resolver_mapeo(nombre_archivo: str, nombre_carpeta: str, encabezados: list, config: dict, api_key: str):
+    texto_busqueda = f"{nombre_archivo.upper()} {nombre_carpeta.upper()}"
 
     # 1. Buscar en JSON existente
     for llave, datos in config.items():
         if llave.upper() in ("GENERAL",):
             continue
         if llave.upper() in texto_busqueda:
-            log.info(f"🎯 Mapeo encontrado en configuración para: `{llave}`")
+            print(f"   🎯 Mapeo encontrado en JSON para: '{llave}'")
             return datos, datos.get("rellenar_vendedor", False)
 
     # 2. Bloque GENERAL como fallback
@@ -223,292 +199,208 @@ def resolver_mapeo(nombre_archivo: str, encabezados: list, config: dict, api_key
             if isinstance(sinonimos, list) and any(s in encabezados for s in sinonimos)
         )
         if coincidencias >= 2:
-            log.info(f"ℹ️ Usando bloque GENERAL (coincidencias: {coincidencias})")
+            print(f"   ℹ️  Usando bloque GENERAL (coincidencias: {coincidencias})")
             return general, general.get("rellenar_vendedor", False)
 
     # 3. Llamada a la IA
     if api_key:
-        log.info("🤖 Consultando a Claude para generar el mapeo...")
+        print(f"   🤖 No se encontró mapeo local. Consultando a Claude...")
         nuevo_mapeo, clave_corta = mapear_con_ia(encabezados, nombre_archivo, api_key)
         if nuevo_mapeo and clave_corta:
             config[clave_corta] = nuevo_mapeo
             guardar_json(config)
-            log.info(f"✅ IA generó mapeo y guardó clave: `{clave_corta}`")
             return nuevo_mapeo, nuevo_mapeo.get("rellenar_vendedor", False)
 
+    print(f"   ⚠️  No se pudo obtener mapeo para {nombre_archivo}. Se saltará.")
     return None, False
 
-
 # ─────────────────────────────────────────────────────────────────
-#   PROCESAMIENTO DE UN ARCHIVO
+#   PROCESAMIENTO PRINCIPAL
 # ─────────────────────────────────────────────────────────────────
 
-def procesar_archivo(uploaded_file, template_bytes: bytes, config: dict, api_key: str, log) -> bytes | None:
-    nombre_archivo = uploaded_file.name
-    file_bytes = uploaded_file.read()
+def cargar_datos_distribuidores():
+    root = tk.Tk()
+    root.withdraw()
 
-    # ── 1. Detectar fila de encabezados ──────────────────────────
-    df_origen, fila_detectada = detectar_fila_encabezados(file_bytes)
-    log.info(f"📋 Encabezados detectados en fila {fila_detectada}: `{list(df_origen.columns)}`")
-
-    encabezados = list(df_origen.columns)
-
-    # ── 2. Obtener mapeo ─────────────────────────────────────────
-    mapeo_sinonimos, debe_rellenar = resolver_mapeo(
-        nombre_archivo, encabezados, config, api_key, log
+    file_paths = filedialog.askopenfilenames(
+        title="Selecciona los archivos de los distribuidores",
+        filetypes=[("Archivos de Excel", "*.xlsx *.xls")]
     )
+    if not file_paths:
+        print("No se seleccionaron archivos.")
+        return
 
-    if mapeo_sinonimos is None:
-        log.error("❌ No se pudo obtener un mapeo válido.")
-        return None
+    template_path = filedialog.askopenfilename(
+        title="Selecciona el archivo plantilla",
+        filetypes=[("Archivos de Excel", "*.xlsx *.xls")]
+    )
+    if not template_path:
+        print("No se seleccionó plantilla.")
+        return
 
-    # ── 3. Construir mapeo columna_origen → campo_plantilla ──────
-    #
-    #   CORRECCIÓN DEL BUG PRINCIPAL:
-    #   Comparamos los sinónimos devueltos por la IA contra los encabezados
-    #   REALES del DataFrame (ya detectados en la fila correcta).
-    #   Antes, si la fila era 2 o 3, df_origen.columns tenía índices numéricos
-    #   y nunca coincidía.
-    #
-    columnas_a_extraer = {}   # { col_en_excel: campo_plantilla }
-    campos_sin_columna = []
-
-    for campo_plantilla, sinonimos in mapeo_sinonimos.items():
-        if campo_plantilla == "rellenar_vendedor":
-            continue
-        if not isinstance(sinonimos, list) or len(sinonimos) == 0:
-            campos_sin_columna.append(campo_plantilla)
-            continue
-
-        encontrado = False
-        for sinonimo in sinonimos:
-            # Comparación exacta primero
-            if sinonimo in df_origen.columns:
-                columnas_a_extraer[sinonimo] = campo_plantilla
-                encontrado = True
-                break
-            # Comparación case-insensitive como fallback
-            coincidencia = next(
-                (c for c in df_origen.columns if c.strip().lower() == sinonimo.strip().lower()),
-                None
-            )
-            if coincidencia:
-                columnas_a_extraer[coincidencia] = campo_plantilla
-                encontrado = True
-                break
-
-        if not encontrado:
-            campos_sin_columna.append(campo_plantilla)
-
-    if campos_sin_columna:
-        log.warning(f"⚠️ Campos sin columna encontrada: {campos_sin_columna}")
-
-    if not columnas_a_extraer:
-        log.error("❌ Ninguna columna del mapeo coincidió con los encabezados del archivo.")
-        return None
-
-    log.info(f"🔗 Columnas mapeadas: {columnas_a_extraer}")
-
-    # ── 4. Extraer y renombrar columnas ──────────────────────────
-    df_filtrado = df_origen[list(columnas_a_extraer.keys())].rename(columns=columnas_a_extraer)
-
-    # Eliminar filas donde TODAS las columnas están vacías (basura post-encabezado)
-    df_filtrado = df_filtrado.dropna(how="all").reset_index(drop=True)
-
-    # ── 5. Cargar plantilla y obtener columnas finales ────────────
-    wb = openpyxl.load_workbook(io.BytesIO(template_bytes))
-    ws = wb.active
-    columnas_finales = [cell.value for cell in ws[1] if cell.value is not None]
-
-    # Agregar columnas faltantes como vacías
-    for col in columnas_finales:
-        if col not in df_filtrado.columns:
-            df_filtrado[col] = None
-
-    df_final = df_filtrado[columnas_finales].copy()
-
-    # ── 6. Transformaciones estándar ─────────────────────────────
-    NULOS = ['nan', 'NAN', 'None', 'none', 'NONE', '', 'NaT']
-
-    if 'vendedor' in df_final.columns:
-        df_final['vendedor'] = df_final['vendedor'].replace(NULOS, None)
-        if debe_rellenar:
-            log.info("⬇️ Aplicando fill-down en columna 'vendedor'.")
-            df_final['vendedor'] = df_final['vendedor'].ffill()
-
-    if 'cantidad' in df_final.columns:
-        df_final['cantidad'] = (
-            pd.to_numeric(df_final['cantidad'], errors='coerce')
-            .fillna(0).round(0).astype(int)
-        )
-
-    if 'Valor Total' in df_final.columns:
-        df_final['Valor Total'] = (
-            pd.to_numeric(df_final['Valor Total'], errors='coerce')
-            .fillna(0).round(0).astype(int)
-        )
-
-    if 'fecha' in df_final.columns:
-        df_final['fecha'] = df_final['fecha'].replace(NULOS, None)
-
-    if 'cc' in df_final.columns:
-        df_final['cc'] = df_final['cc'].fillna('Sin cc').replace(NULOS, 'Sin cc')
-
-    if 'nit' in df_final.columns:
-        df_final['nit'] = df_final['nit'].fillna('Sin nit').replace(NULOS, 'Sin nit')
-
-    # ── 7. Escribir datos en plantilla conservando estilos ────────
-    estilos_columnas = {}
-    if ws.max_row >= 2:
-        for col_idx in range(1, ws.max_column + 1):
-            celda = ws.cell(row=2, column=col_idx)
-            estilos_columnas[col_idx] = {
-                'font':          copy(celda.font),
-                'border':        copy(celda.border),
-                'fill':          copy(celda.fill),
-                'number_format': celda.number_format,
-                'alignment':     copy(celda.alignment)
-            }
-        ws.delete_rows(2, amount=ws.max_row)
-
-    for r_idx, row in enumerate(dataframe_to_rows(df_final, index=False, header=False), start=2):
-        for c_idx, value in enumerate(row, start=1):
-            nueva_celda = ws.cell(row=r_idx, column=c_idx, value=value)
-            if c_idx in estilos_columnas:
-                for prop in ('font', 'border', 'fill', 'number_format', 'alignment'):
-                    val = estilos_columnas[c_idx].get(prop)
-                    if val:
-                        setattr(nueva_celda, prop, val)
-
-    # Limpiar última fila (totales/basura al final)
-    ultima_fila = ws.max_row
-    if ultima_fila >= 2:
-        indices_columnas = {nombre: idx + 1 for idx, nombre in enumerate(columnas_finales)}
-        for campo in ['fecha', 'cc', 'nit', 'vendedor', 'cliente', 'referencia']:
-            if campo in indices_columnas:
-                ws.cell(row=ultima_fila, column=indices_columnas[campo], value=None)
-
-    # ── 8. Guardar en buffer y retornar ──────────────────────────
-    out_buffer = io.BytesIO()
-    wb.save(out_buffer)
-    out_buffer.seek(0)
-    return out_buffer.getvalue()
-
-
-# ═══════════════════════════════════════════════════════════════════
-#   INTERFAZ PRINCIPAL
-# ═══════════════════════════════════════════════════════════════════
-
-st.markdown("### 📁 Carga de archivos")
-
-template_file = st.file_uploader(
-    "1. Archivo PLANTILLA (estructura de destino)",
-    type=["xlsx"],
-    help="El archivo con los encabezados estándar: fecha, vendedor, cc, referencia, Valor Total, cantidad, cliente, nit"
-)
-
-uploaded_files = st.file_uploader(
-    "2. Archivos de DISTRIBUIDORES",
-    type=["xlsx"],
-    accept_multiple_files=True,
-    help="Puedes subir varios archivos a la vez. El sistema detecta automáticamente en qué fila están los encabezados."
-)
-
-# Mostrar aviso de detección automática
-if uploaded_files:
-    st.info(f"📂 {len(uploaded_files)} archivo(s) cargado(s). El sistema buscará encabezados en las primeras 3 filas de cada uno.")
-
-st.markdown("---")
-
-# ── BOTÓN DE PROCESAMIENTO ───────────────────────────────────────
-listo = bool(uploaded_files and template_file)
-
-if st.button("🚀 Iniciar Procesamiento", disabled=not listo, use_container_width=True):
+    api_key = pedir_api_key()
+    if not api_key:
+        print("⚠️  Sin API key. Solo se usarán mapeos del JSON existente.")
 
     config = cargar_json()
-    template_bytes = template_file.read()
+    carpeta_salida = os.path.join(os.path.dirname(template_path), "Distribuciones_Procesadas")
+    os.makedirs(carpeta_salida, exist_ok=True)
 
-    exitosos: dict[str, bytes] = {}
-    fallidos: list[str] = []
+    exitosos, fallidos = [], []
 
-    progress_bar = st.progress(0, text="Iniciando...")
-    total = len(uploaded_files)
+    for path in file_paths:
+        nombre_archivo = os.path.basename(path)
+        nombre_carpeta = os.path.basename(os.path.dirname(path))
 
-    for idx, archivo in enumerate(uploaded_files):
-        nombre = archivo.name
-        progress_bar.progress((idx) / total, text=f"Procesando {idx+1}/{total}: {nombre}")
+        print(f"\n{'─'*60}")
+        print(f"📄 Procesando: {nombre_archivo}  (carpeta: {nombre_carpeta})")
 
-        # Expander con log en tiempo real por archivo
-        with st.expander(f"📄 {nombre}", expanded=True):
-            log = st.status(f"Procesando {nombre}...", expanded=True)
+        try:
+            # ── 1. Detectar fila de encabezados ──────────────────
+            df_origen, fila_detectada = detectar_fila_encabezados(path)
+            print(f"   📋 Encabezados detectados en fila {fila_detectada}: {list(df_origen.columns)}")
 
-            resultado = procesar_archivo(archivo, template_bytes, config, api_key, log)
+            encabezados = list(df_origen.columns)
 
-            if resultado:
-                exitosos[f"Limpio_{nombre}"] = resultado
-                log.update(label=f"✅ {nombre} — procesado correctamente", state="complete", expanded=False)
-            else:
-                fallidos.append(nombre)
-                log.update(label=f"❌ {nombre} — falló (ver detalle arriba)", state="error", expanded=True)
+            # ── 2. Obtener mapeo ──────────────────────────────────
+            mapeo_sinonimos, debe_rellenar = resolver_mapeo(
+                nombre_archivo, nombre_carpeta, encabezados, config, api_key
+            )
 
-    progress_bar.progress(1.0, text="¡Procesamiento completado!")
+            if mapeo_sinonimos is None:
+                fallidos.append(nombre_archivo)
+                continue
 
-    # ── RESUMEN ──────────────────────────────────────────────────
-    st.markdown("---")
-    st.markdown("### 📊 Resumen")
-    col1, col2 = st.columns(2)
-    col1.metric("✅ Exitosos", len(exitosos))
-    col2.metric("❌ Fallidos", len(fallidos))
+            # ── 3. Construir mapeo con comparación exacta + case-insensitive ──
+            columnas_a_extraer = {}
+            campos_sin_columna = []
 
+            for campo_plantilla, sinonimos in mapeo_sinonimos.items():
+                if campo_plantilla == "rellenar_vendedor":
+                    continue
+                if not isinstance(sinonimos, list) or len(sinonimos) == 0:
+                    campos_sin_columna.append(campo_plantilla)
+                    continue
+
+                encontrado = False
+                for sinonimo in sinonimos:
+                    # Comparación exacta primero
+                    if sinonimo in df_origen.columns:
+                        columnas_a_extraer[sinonimo] = campo_plantilla
+                        encontrado = True
+                        break
+                    # Comparación case-insensitive como fallback
+                    coincidencia = next(
+                        (c for c in df_origen.columns if c.strip().lower() == sinonimo.strip().lower()),
+                        None
+                    )
+                    if coincidencia:
+                        columnas_a_extraer[coincidencia] = campo_plantilla
+                        encontrado = True
+                        break
+
+                if not encontrado:
+                    campos_sin_columna.append(campo_plantilla)
+
+            if campos_sin_columna:
+                print(f"   ⚠️  Campos sin columna encontrada: {campos_sin_columna}")
+
+            if not columnas_a_extraer:
+                print(f"   ❌ Ninguna columna coincidió. Saltando...")
+                fallidos.append(nombre_archivo)
+                continue
+
+            print(f"   🔗 Columnas mapeadas: {columnas_a_extraer}")
+
+            # ── 4. Extraer, renombrar y limpiar filas vacías ──────
+            df_filtrado = df_origen[list(columnas_a_extraer.keys())].rename(columns=columnas_a_extraer)
+            df_filtrado = df_filtrado.dropna(how="all").reset_index(drop=True)
+
+            # ── 5. Cargar plantilla y alinear columnas ────────────
+            wb = openpyxl.load_workbook(template_path)
+            ws = wb.active
+            columnas_finales = [cell.value for cell in ws[1] if cell.value is not None]
+
+            for col in columnas_finales:
+                if col not in df_filtrado.columns:
+                    df_filtrado[col] = None
+
+            df_final = df_filtrado[columnas_finales].copy()
+
+            # ── 6. Limpiezas y conversiones ───────────────────────
+            if 'vendedor' in df_final.columns:
+                df_final['vendedor'] = df_final['vendedor'].replace(NULOS, None)
+                if debe_rellenar:
+                    print("   ⬇️  Aplicando fill-down en columna 'vendedor'.")
+                    df_final['vendedor'] = df_final['vendedor'].ffill()
+
+            if 'cantidad' in df_final.columns:
+                df_final['cantidad'] = pd.to_numeric(df_final['cantidad'], errors='coerce').fillna(0).round(0).astype(int)
+
+            if 'Valor Total' in df_final.columns:
+                df_final['Valor Total'] = pd.to_numeric(df_final['Valor Total'], errors='coerce').fillna(0).round(0).astype(int)
+
+            if 'fecha' in df_final.columns:
+                df_final['fecha'] = df_final['fecha'].replace(NULOS, None)
+
+            if 'cc' in df_final.columns:
+                df_final['cc'] = df_final['cc'].fillna('Sin cc').replace(NULOS, 'Sin cc')
+
+            if 'nit' in df_final.columns:
+                df_final['nit'] = df_final['nit'].fillna('Sin nit').replace(NULOS, 'Sin nit')
+
+            # ── 7. Estilos desde la plantilla ─────────────────────
+            estilos_columnas = {}
+            if ws.max_row >= 2:
+                for col_idx in range(1, ws.max_column + 1):
+                    celda = ws.cell(row=2, column=col_idx)
+                    estilos_columnas[col_idx] = {
+                        'font': copy(celda.font), 'border': copy(celda.border),
+                        'fill': copy(celda.fill), 'number_format': celda.number_format,
+                        'alignment': copy(celda.alignment)
+                    }
+                ws.delete_rows(2, amount=ws.max_row)
+
+            for r_idx, row in enumerate(dataframe_to_rows(df_final, index=False, header=False), start=2):
+                for c_idx, value in enumerate(row, start=1):
+                    nueva_celda = ws.cell(row=r_idx, column=c_idx, value=value)
+                    if c_idx in estilos_columnas:
+                        for prop in ('font', 'border', 'fill', 'number_format', 'alignment'):
+                            if estilos_columnas[c_idx][prop]:
+                                setattr(nueva_celda, prop, estilos_columnas[c_idx][prop])
+
+            # ── 8. Limpiar última fila ────────────────────────────
+            ultima_fila = ws.max_row
+            if ultima_fila >= 2:
+                indices_columnas = {nombre: idx + 1 for idx, nombre in enumerate(columnas_finales)}
+                for campo in ['fecha', 'cc', 'nit', 'vendedor', 'cliente', 'referencia']:
+                    if campo in indices_columnas:
+                        ws.cell(row=ultima_fila, column=indices_columnas[campo], value=None)
+
+            output_path = os.path.join(carpeta_salida, f"Limpio_{nombre_archivo}")
+            wb.save(output_path)
+            print(f"   ✔️  Guardado: Limpio_{nombre_archivo}")
+            exitosos.append(nombre_archivo)
+
+        except Exception as e:
+            print(f"   ❌ Error en {nombre_archivo}: {e}")
+            fallidos.append(nombre_archivo)
+
+    print(f"\n{'═'*60}")
+    print(f"✅ Procesados exitosamente: {len(exitosos)}")
+    for f in exitosos:
+        print(f"   • {f}")
     if fallidos:
-        with st.expander("Ver archivos fallidos"):
-            for f in fallidos:
-                st.error(f"• {f}")
+        print(f"\n❌ Fallidos ({len(fallidos)}):")
+        for f in fallidos:
+            print(f"   • {f}")
+    print(f"\n📁 Archivos guardados en:\n   {carpeta_salida}")
 
-    # ── DESCARGA ─────────────────────────────────────────────────
-    if exitosos:
-        if len(exitosos) == 1:
-            # Un solo archivo: descarga directa
-            nombre_unico, bytes_unico = next(iter(exitosos.items()))
-            st.download_button(
-                label=f"📥 Descargar {nombre_unico}",
-                data=bytes_unico,
-                file_name=nombre_unico,
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                use_container_width=True
-            )
-        else:
-            # Varios archivos: ZIP
-            zip_buffer = io.BytesIO()
-            with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
-                for fname, fbytes in exitosos.items():
-                    zf.writestr(fname, fbytes)
-            zip_buffer.seek(0)
 
-            st.download_button(
-                label="📥 Descargar todos los archivos procesados (.ZIP)",
-                data=zip_buffer,
-                file_name="Distribuciones_Procesadas.zip",
-                mime="application/zip",
-                use_container_width=True
-            )
-
-    # ── DESCARGA DEL JSON ACTUALIZADO ────────────────────────────
-    # Si la IA generó mapeos nuevos durante esta sesión, el config
-    # en memoria quedó actualizado. Ofrecemos descargarlo para que
-    # el usuario lo reemplace en su VS Code y lo vuelva a subir.
-    config_actualizado = cargar_json()
-    if config_actualizado:
-        st.markdown("---")
-        st.markdown("### 🗂️ Configuración de distribuidores")
-        st.caption(
-            "Si la IA aprendió distribuidores nuevos en esta sesión, descarga el JSON "
-            "actualizado, reemplázalo en tu proyecto y vuelve a hacer deploy."
-        )
-        st.download_button(
-            label="⬇️ Descargar config_distribuidores.json actualizado",
-            data=json.dumps(config_actualizado, ensure_ascii=False, indent=2).encode("utf-8"),
-            file_name="config_distribuidores.json",
-            mime="application/json",
-            use_container_width=True
-        )
+if __name__ == "__main__":
+    print("╔══════════════════════════════════════════════════════════╗")
+    print("║         SISTEMA DE LIQUIDACIÓN DE DISTRIBUIDORES         ║")
+    print("║       Creado por Nicolas Tovar y Cristian Morales        ║")
+    print("╚══════════════════════════════════════════════════════════╝")
+    print()
+    cargar_datos_distribuidores()

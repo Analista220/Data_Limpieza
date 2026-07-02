@@ -37,16 +37,16 @@
       ""
     ],
     "referencia": [
-      "PRODUCTOS"
+      "Nombre Item"
     ],
     "Valor Total": [
-      "ValorTotal"
+      "Valor $"
     ],
     "cantidad": [
       "Cajas"
     ],
     "cliente": [
-      "CLIENTE"
+      "Nombre Cial Cl"
     ],
     "nit": [
       "Nit CL"
