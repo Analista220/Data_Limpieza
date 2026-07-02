@@ -23,6 +23,9 @@ NULOS = ['nan', 'NAN', 'None', 'none', 'NONE', 'NaT', '']
 #   API KEY
 # ─────────────────────────────────────────────────────────────────
 
+
+#xtfcxcgx
+
 def pedir_api_key():
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
