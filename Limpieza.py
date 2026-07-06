@@ -24,8 +24,6 @@ NULOS = ['nan', 'NAN', 'None', 'none', 'NONE', 'NaT', '']
 # ─────────────────────────────────────────────────────────────────
 
 
-#xtfcxcgx
-
 def pedir_api_key():
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
@@ -72,7 +70,7 @@ def detectar_fila_encabezados(path: str) -> tuple[pd.DataFrame, int]:
     return df_fallback, 1
 
 # ─────────────────────────────────────────────────────────────────
-#   MAPEO CON IA
+#   MAPEO COMPLETO CON IA (DISTRIBUIDOR NUEVO)
 # ─────────────────────────────────────────────────────────────────
 
 def mapear_con_ia(encabezados: list, nombre_archivo: str, api_key: str) -> tuple[dict, str] | tuple[None, None]:
@@ -165,6 +163,89 @@ Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta, sin 
     return None, None
 
 # ─────────────────────────────────────────────────────────────────
+#   COMPLETAR SOLO CAMPOS FALTANTES CON IA (DISTRIBUIDOR YA CONOCIDO)
+# ─────────────────────────────────────────────────────────────────
+
+def completar_campos_con_ia(campos_faltantes: list, encabezados: list, nombre_archivo: str, api_key: str) -> dict | None:
+    """
+    Le pide a la IA que mapee ÚNICAMENTE los campos que no se pudieron
+    encontrar con los sinónimos ya guardados, usando los encabezados reales
+    del archivo actual. Se usa cuando el distribuidor YA está mapeado en el
+    JSON pero llegó con columnas nuevas/diferentes para algunos campos.
+    """
+    prompt = f"""Eres un asistente experto en normalización de datos de ventas.
+
+Tengo un archivo Excel llamado "{nombre_archivo}" con estos encabezados exactos:
+{json.dumps(encabezados, ensure_ascii=False)}
+
+Ya tengo mapeados varios campos, pero estos NO se pudieron encontrar con los sinónimos que tenía guardados:
+{json.dumps(campos_faltantes, ensure_ascii=False)}
+
+Para cada uno de esos campos, dime cuál encabezado (o encabezados posibles) de la lista anterior corresponde.
+
+Definiciones de los campos:
+- fecha        → columna con fechas de venta/documento
+- vendedor     → columna con nombre o código del vendedor/asesor
+- cc           → columna con cédula o identificación del vendedor
+- referencia   → columna con el nombre DESCRIPTIVO del producto (texto, no código)
+- Valor Total  → columna con el valor/precio total de la venta
+- cantidad     → columna con cantidad de unidades o cajas vendidas
+- cliente      → columna con nombre descriptivo del cliente (texto, no código)
+- nit          → columna con NIT o identificación numérica del cliente
+
+Reglas:
+1. Cada valor debe ser una LISTA con el encabezado EXACTO tal como aparece arriba.
+2. Si de verdad no existe una columna para ese campo, usa lista vacía: [].
+3. Si detectas que la columna de vendedor está agrupada (pocos valores únicos repetidos), agrega "rellenar_vendedor": true, si no, no incluyas esa clave.
+
+Responde ÚNICAMENTE con un objeto JSON válido, solo con los campos solicitados en {json.dumps(campos_faltantes, ensure_ascii=False)} (y opcionalmente "rellenar_vendedor"), sin explicaciones ni bloques de código."""
+
+    body = json.dumps({
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 300,
+        "messages": [{"role": "user", "content": prompt}]
+    }).encode("utf-8")
+
+    def construir_req():
+        return urllib.request.Request(
+            "https://api.anthropic.com/v1/messages",
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01"
+            },
+            method="POST"
+        )
+
+    req = construir_req()
+
+    for intento in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                respuesta = json.loads(resp.read().decode("utf-8"))
+                texto = respuesta["content"][0]["text"].strip()
+                texto = texto.replace("```json", "").replace("```", "").strip()
+                parcial = json.loads(texto)
+                print(f"   🤖 IA completó campos faltantes: {list(parcial.keys())}")
+                return parcial
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                espera = 20 * (intento + 1)
+                print(f"   ⏳ Límite de velocidad. Esperando {espera}s...")
+                time.sleep(espera)
+                req = construir_req()
+                continue
+            print(f"   ❌ Error HTTP {e.code} completando campos faltantes: {e.read().decode('utf-8')}")
+            return None
+        except Exception as e:
+            print(f"   ❌ Error al completar campos faltantes con IA: {e}")
+            return None
+
+    print("   ❌ Se agotaron los 3 reintentos completando campos faltantes.")
+    return None
+
+# ─────────────────────────────────────────────────────────────────
 #   JSON
 # ─────────────────────────────────────────────────────────────────
 
@@ -184,6 +265,13 @@ def guardar_json(config: dict):
 # ─────────────────────────────────────────────────────────────────
 
 def resolver_mapeo(nombre_archivo: str, nombre_carpeta: str, encabezados: list, config: dict, api_key: str):
+    """
+    Retorna (mapeo, debe_rellenar, llave_usada).
+    llave_usada es la clave del JSON de donde salió el mapeo (o None si vino
+    de una llamada completa a la IA sin guardarse, o si falló todo).
+    Se usa luego para poder actualizar esa misma entrada del JSON si hace
+    falta completar campos faltantes.
+    """
     texto_busqueda = f"{nombre_archivo.upper()} {nombre_carpeta.upper()}"
 
     # 1. Buscar en JSON existente
@@ -192,7 +280,7 @@ def resolver_mapeo(nombre_archivo: str, nombre_carpeta: str, encabezados: list, 
             continue
         if llave.upper() in texto_busqueda:
             print(f"   🎯 Mapeo encontrado en JSON para: '{llave}'")
-            return datos, datos.get("rellenar_vendedor", False)
+            return datos, datos.get("rellenar_vendedor", False), llave
 
     # 2. Bloque GENERAL como fallback
     if "GENERAL" in config:
@@ -203,19 +291,19 @@ def resolver_mapeo(nombre_archivo: str, nombre_carpeta: str, encabezados: list, 
         )
         if coincidencias >= 2:
             print(f"   ℹ️  Usando bloque GENERAL (coincidencias: {coincidencias})")
-            return general, general.get("rellenar_vendedor", False)
+            return general, general.get("rellenar_vendedor", False), "GENERAL"
 
-    # 3. Llamada a la IA
+    # 3. Llamada a la IA (mapeo completo, distribuidor nuevo)
     if api_key:
         print(f"   🤖 No se encontró mapeo local. Consultando a Claude...")
         nuevo_mapeo, clave_corta = mapear_con_ia(encabezados, nombre_archivo, api_key)
         if nuevo_mapeo and clave_corta:
             config[clave_corta] = nuevo_mapeo
             guardar_json(config)
-            return nuevo_mapeo, nuevo_mapeo.get("rellenar_vendedor", False)
+            return nuevo_mapeo, nuevo_mapeo.get("rellenar_vendedor", False), clave_corta
 
     print(f"   ⚠️  No se pudo obtener mapeo para {nombre_archivo}. Se saltará.")
-    return None, False
+    return None, False, None
 
 # ─────────────────────────────────────────────────────────────────
 #   PROCESAMIENTO PRINCIPAL
@@ -266,7 +354,7 @@ def cargar_datos_distribuidores():
             encabezados = list(df_origen.columns)
 
             # ── 2. Obtener mapeo ──────────────────────────────────
-            mapeo_sinonimos, debe_rellenar = resolver_mapeo(
+            mapeo_sinonimos, debe_rellenar, llave_usada = resolver_mapeo(
                 nombre_archivo, nombre_carpeta, encabezados, config, api_key
             )
 
@@ -304,6 +392,48 @@ def cargar_datos_distribuidores():
 
                 if not encontrado:
                     campos_sin_columna.append(campo_plantilla)
+
+            # ── 3.5. Si el mapeo ya existía pero faltan campos, preguntar a la IA SOLO por esos ──
+            if campos_sin_columna and api_key and llave_usada:
+                print(f"   🔎 Campos sin columna tras el mapeo guardado: {campos_sin_columna}. Consultando IA...")
+                parcial = completar_campos_con_ia(campos_sin_columna, encabezados, nombre_archivo, api_key)
+
+                if parcial:
+                    cambios = False
+                    for campo, nuevos_sinonimos in parcial.items():
+                        if campo == "rellenar_vendedor":
+                            if nuevos_sinonimos:
+                                debe_rellenar = True
+                                mapeo_sinonimos["rellenar_vendedor"] = True
+                                config[llave_usada]["rellenar_vendedor"] = True
+                                cambios = True
+                            continue
+
+                        if not isinstance(nuevos_sinonimos, list) or not nuevos_sinonimos:
+                            continue
+
+                        for sinonimo in nuevos_sinonimos:
+                            coincidencia = sinonimo if sinonimo in df_origen.columns else next(
+                                (c for c in df_origen.columns if c.strip().lower() == sinonimo.strip().lower()),
+                                None
+                            )
+                            if coincidencia:
+                                columnas_a_extraer[coincidencia] = campo
+                                if campo in campos_sin_columna:
+                                    campos_sin_columna.remove(campo)
+
+                                # Guardar el nuevo sinónimo en el JSON sin perder los anteriores
+                                existentes = config[llave_usada].get(campo, [])
+                                if not isinstance(existentes, list):
+                                    existentes = []
+                                if sinonimo not in existentes:
+                                    existentes.append(sinonimo)
+                                config[llave_usada][campo] = existentes
+                                cambios = True
+                                break
+
+                    if cambios:
+                        guardar_json(config)
 
             if campos_sin_columna:
                 print(f"   ⚠️  Campos sin columna encontrada: {campos_sin_columna}")
